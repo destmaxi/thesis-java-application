@@ -1,20 +1,24 @@
+FROM debian:buster
+
+MAINTAINER Maxime de Streel <maxime.destreel@student.uclouvain.be>
 # TODO: autogen & configure & make & make install the tools dir
 # add the missing libs to the /usr/lib dir
-FROM raspbian/stretch:latest
 
-WORKDIR /usr/src
+WORKDIR /usr/dtn_app
 
-RUN sudo apt-get update && sudo apt-get upgrade -y
-RUN sudo apt-get install git -y
-RUN git clone https://github.com/ibrdtn/ibrdtn.git ibrdtn-repo
-RUN sudo apt-get install devscripts build-essential libtool cdbs pkg-config debhelper autotools-dev \
- libnl-3-dev libnl-genl-3-dev libnl-route-3-dev libnl-nf-3-dev libnl-cli-3-dev libssl-dev libssl-dev \
- zlib1g-dev libsqlite3-dev libcurl4-openssl-dev libdaemon-dev libvmime-dev libarchive-dev -y
+RUN apt-get update && apt-get install -y --no-install-recommends \
+# packets for ibrdtn
+  build-essential libssl-dev libz-dev libsqlite3-dev libcurl4-gnutls-dev \
+  libdaemon-dev automake autoconf pkg-config libtool libcppunit-dev \
+  libnl-3-dev libnl-cli-3-dev libnl-genl-3-dev libnl-nf-3-dev libnl-route-3-dev \
+  libarchive-dev libarchive-dev \
+  # others
+  ca-certificates git
 
-ADD linux-compile.sh .
+RUN git clone https://github.com/ibrdtn/ibrdtn.git
 
-RUN cp linux-compile.sh ibrdtn-repo/scripts/
-RUN cd ibrdtn-repo && bash scripts/linux-compile.sh
+ADD linux-compile.sh ibrdtn/scripts
 
-EXPOSE 4550
+RUN cd ibrdtn && bash scripts/linux-compile.sh
 
+RUN mv ibrdtn/libibr* /usr/lib
