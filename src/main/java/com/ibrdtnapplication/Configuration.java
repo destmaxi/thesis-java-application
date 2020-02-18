@@ -16,6 +16,7 @@ class Configuration {
     private String dst;
     private Level debugLevel = Level.ALL;
     private int number = 10;
+    private int port = 5000;
     private boolean eidGroup = false;
     private boolean dstGroup = false;
 
@@ -34,6 +35,7 @@ class Configuration {
         Option dstGroup = new Option("dg", "dst-group", false, "the destination is a group");
         Option number = new Option("n", "number", true, "number of messages to send, default 10");
         Option debug = new Option("d", "debug-level", true, "set the debug level");
+        Option port = new Option("p", "port", true, "set the listening port, default 5000");
 
         options.addOption(help);
         options.addOption(configFile);
@@ -44,6 +46,7 @@ class Configuration {
         options.addOption(dstGroup);
         options.addOption(number);
         options.addOption(debug);
+        options.addOption(port);
 
 
         try {
@@ -54,7 +57,6 @@ class Configuration {
             } else if (commandLine.hasOption(configFile.getOpt())) {
                 this.configFile = commandLine.getOptionValue(configFile.getOpt());
                 setConfig();
-                return;
             } else {
                 setConfig();
             }
@@ -66,10 +68,10 @@ class Configuration {
                 else if (option.equals(dst)) this.dst = commandLine.getOptionValue(dst.getOpt());
                 else if (option.equals(eidGroup)) this.eidGroup = true;
                 else if (option.equals(dstGroup)) this.dstGroup = true;
+                else if (option.equals(port)) this.port = Integer.parseInt(commandLine.getOptionValue(port.getOpt()));
                 else if (option.equals(number))
                     this.number = Integer.parseInt(commandLine.getOptionValue(number.getOpt()));
                 else if (option.equals(debug))
-                    //this.debugLevel = Integer.parseInt(commandLine.getOptionValue(debug.getOpt()));
                     this.debugLevel = Level.parse(commandLine.getOptionValue(debug.getOpt()));
                 else formatter.printHelp(" ", options);
             }
@@ -92,6 +94,10 @@ class Configuration {
 
     String getEid() {
         return isEidGroup() ? "dtn://" + eid : eid;
+    }
+
+    int getPort() {
+        return port;
     }
 
     Level getDebugLevel() {
@@ -145,6 +151,9 @@ class Configuration {
                 case "debugLevel":
                     this.debugLevel = Level.parse((String) entry.getValue());
                     break;
+                case "port":
+                    this.port = Integer.parseInt((String) entry.getValue());
+                    break;
             }
         }
     }
@@ -159,6 +168,7 @@ class Configuration {
                 "\tisEidGroup: " + eidGroup + "\n" +
                 "\tisDstGroup: " + dstGroup + "\n" +
                 "\tdebug level: " + debugLevel + "\n" +
-                "\tnumber: " + number + "\n\033[0m";
+                "\tnumber: " + number + "\n" +
+                "\tlisteningPort: " + port + "\n\033[0m";
     }
 }
