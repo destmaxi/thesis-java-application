@@ -1,8 +1,6 @@
 FROM debian:buster
 
 MAINTAINER Maxime de Streel <maxime.destreel@student.uclouvain.be>
-# TODO: autogen & configure & make & make install the tools dir
-# add the missing libs to the /usr/lib dir
 
 WORKDIR /usr/dtn_app
 

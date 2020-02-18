@@ -53,7 +53,17 @@ fi
 make -j
 make install
 cd ..
-cd ..
 
+cd tools
+if [ ${CLEAN} -eq 1 ]; then
+    [ -f Makefile ] && make clean
+    bash autogen.sh
+    ./configure
+fi
+
+make -j
+make install
+cd ..
+cd ..
 ln -s /usr/local/lib/libibrcommon.so.1.0.0 libibrcommon.so.1
 ln -s /usr/local/lib/libibrdtn.so.1.0.0 libibrdtn.so.1
