@@ -1,10 +1,31 @@
-#### TROUBLESHOOTING
+## Test the java-application
 
-When running the ibrdtn Daemon with time synchrony (master & slave model) the slave will send his bundle with a timestamp
-of 0. In the [ibrdtn-java-api](https://github.com/auzias/ibrdtn-api) bundles that are created with a 0 timestamp are set 
-to the local time. Once it will try to retrieve the bundle from the daemon (with the local timestamp) it will fail. 
+- build the docker image in ibrdtn with the tag "ibrdtn"
+- build the docker image in java-application
+- create a network with ipv6 
+```
+$ docker network create --ipv6 --subnet 2001:db8:1::/64 mynetwork
+```
 
-There is no problem when the master sends bundles.
+- run the java-application docker image
+```
+$ docker run --name javaapp --hostname node1 -it --rm --network mynetwork javaapp
+```
 
-**STILL A PROBLEM:** I don't see why the error code returned by the daemon 400 BAD REQUEST is, it should be 404 NOT_FOUND (I think).
-So there is probably still something I don't fully understand in the source of the bug. 
+Normally you should have a bash terminal open
+
+- launch the ibrdtn daemon `$ dtnd -D -i eth0`
+- launch the java application `$ java -jar application.jar`
+
+Open anther terminal to repeat the previous steps (don't forget to change the hostname)
+
+Finally you can from (again) another terminal launch the python script that will send some data to the application.
+```
+$ docker exec CONTAINER_NAME python3 test.py
+```
+
+## TODO:
+
+- Make a docker-compose to launch multiple containers easily
+- Make a script to initialise all dtnd daemons and java application in the different containers
+- Create a real dataCollector
