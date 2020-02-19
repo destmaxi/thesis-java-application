@@ -6,7 +6,6 @@ RUN pip3 install observable
 ADD github .
 
 RUN chmod 600 github
-RUN alias ll='ls -la'
 
 ENV GIT_SSH_COMMAND="ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no"
 
