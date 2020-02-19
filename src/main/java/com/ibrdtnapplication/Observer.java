@@ -1,4 +1,4 @@
-package main.java.com.ibrdtnapplication;
+package com.ibrdtnapplication;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;

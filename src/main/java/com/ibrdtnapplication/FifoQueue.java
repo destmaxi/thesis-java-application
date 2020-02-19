@@ -1,4 +1,4 @@
-package main.java.com.ibrdtnapplication;
+package com.ibrdtnapplication;
 
 import java.util.concurrent.ConcurrentLinkedDeque;
 import java.util.logging.Logger;

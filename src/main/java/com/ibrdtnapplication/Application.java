@@ -1,4 +1,4 @@
-package main.java.com.ibrdtnapplication;
+package com.ibrdtnapplication;
 
 import org.apache.commons.cli.ParseException;
 import org.ibrdtnapi.BpApplication;

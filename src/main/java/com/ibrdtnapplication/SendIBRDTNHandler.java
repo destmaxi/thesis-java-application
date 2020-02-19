@@ -1,4 +1,4 @@
-package main.java.com.ibrdtnapplication;
+package com.ibrdtnapplication;
 
 import org.ibrdtnapi.BpApplication;
 import org.ibrdtnapi.BundleHandler;
