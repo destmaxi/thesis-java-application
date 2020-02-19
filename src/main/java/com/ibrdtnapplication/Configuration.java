@@ -10,7 +10,7 @@ import java.util.Properties;
 import java.util.logging.Level;
 
 class Configuration {
-    private String outputDir = "log";
+    private String outputDir = "/var/log/javaapp";
     private String configFile = "config.properties";
     private String eid;
     private String dst;
@@ -28,7 +28,7 @@ class Configuration {
         Options options = new Options();
         Option help = new Option("h", "help", false, "print this message");
         Option configFile = new Option("c", "config-file", true, "set a configuration file");
-        Option outputDir = new Option("o", "output-dir", true, "set the output directory to store the data, default is log/");
+        Option outputDir = new Option("o", "output-dir", true, "set the output directory to store the data, default is var/log/javaapp");
         Option eid = new Option("e", "eid", true, "set the eid to listen to");
         Option dst = new Option("dst", "destination", true, "set the destination eid where to send the data");
         Option eidGroup = new Option("eg", "eid-group", false, "set the eid as group");

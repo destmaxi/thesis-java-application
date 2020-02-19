@@ -18,9 +18,9 @@ parser.add_argument("--port", nargs='?', type=int, default=5000, required=False,
                     help="the port to send the data to (default: 5000)")
 parser.add_argument("--host", nargs='?', type=str, default="127.0.0.1", required=False,
                     help="the ip address to send the data to (default: 127.0.0.1)")
-parser.add_argument("--file", nargs='?', type=str, default="log/" + str(socket.gethostname() + "/data.log"),
+parser.add_argument("--file", nargs='?', type=str, default="/var/log/javaapp/" + str(socket.gethostname() + "/data.log"),
                     required=False,
-                    help="the file where to log the data (default: log/$HOSTNAME/data.log")
+                    help="the file where to log the data (default: /var/log/$HOSTNAME/data.log")
 
 args = parser.parse_args()
 
