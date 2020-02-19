@@ -12,8 +12,13 @@ public class Application {
     private static BpApplication bpApplication = new BpApplication();
     private static DataListener dataListener;
 
-    public static void main(String[] args) throws ParseException {
-        Configuration config = new Configuration(args);
+    public static void main(String[] args) {
+        Configuration config = null;
+        try {
+            config = new Configuration(args);
+        } catch (ParseException e) {
+            return;
+        }
 
         setLogLevel(config.getDebugLevel());
         log.log(Level.CONFIG, config.toString());
