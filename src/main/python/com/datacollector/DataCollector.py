@@ -16,7 +16,7 @@ class DataCollector(Observable, Thread):
         while True:
             data = self.collect()
             self.trigger("new_data", data=data)
-            time.sleep(5)
+            time.sleep(2)
 
     def collect(self):
         return random.randint(0, 100)

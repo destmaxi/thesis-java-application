@@ -20,7 +20,7 @@ parser.add_argument("--host", nargs='?', type=str, default="127.0.0.1", required
                     help="the ip address to send the data to (default: 127.0.0.1)")
 parser.add_argument("--file", nargs='?', type=str, default="/var/log/javaapp/" + str(socket.gethostname() + "/data.log"),
                     required=False,
-                    help="the file where to log the data (default: /var/log/$HOSTNAME/data.log")
+                    help="the file where to log the data (default: /var/log/javaapp/$HOSTNAME/data.log")
 
 args = parser.parse_args()
 
