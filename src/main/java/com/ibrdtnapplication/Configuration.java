@@ -9,7 +9,7 @@ import java.util.Objects;
 import java.util.Properties;
 import java.util.logging.Level;
 
-class Configuration {
+public class Configuration {
     private String outputDir = "/var/log/javaapp";
     private String configFile = "config.properties";
     private String eid;
@@ -20,7 +20,7 @@ class Configuration {
     private boolean eidGroup = false;
     private boolean dstGroup = false;
 
-    Configuration(String[] args) throws ParseException {
+    public Configuration(String[] args) throws ParseException {
         CommandLineParser parser = new DefaultParser();
         HelpFormatter formatter = new HelpFormatter();
         CommandLine commandLine;
@@ -88,7 +88,7 @@ class Configuration {
         }
     }
 
-    String getOutputDir() {
+    public String getOutputDir() {
         return outputDir;
     }
 

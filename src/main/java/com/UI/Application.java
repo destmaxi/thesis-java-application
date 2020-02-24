@@ -1,31 +1,45 @@
 package com.UI;
 
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.Objects;
+import com.ibrdtnapplication.Configuration;
+import org.apache.commons.cli.ParseException;
+
+import javax.swing.*;
+import java.io.*;
+import java.lang.reflect.InvocationTargetException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.ArrayList;
 
 public class Application {
-    public static void main(String[] args) {
-        Process proc = null;
-        try {
-            proc = Runtime.getRuntime().exec("hostname");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        BufferedReader stdInput = new BufferedReader(new InputStreamReader(Objects.requireNonNull(proc).getInputStream()));
-        String hostname = null;
-        try {
-            hostname = stdInput.readLine();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        ChartRender render = new ChartRender("test", "/var/log/javaapp/" + hostname + "/data.log");
-        try {
-            render.render();
-        } catch (FileNotFoundException e) {
-            System.err.println("File not found, make sure the file has been created");
-        }
+    public static void main(String[] args) throws InvocationTargetException, InterruptedException, IOException, ParseException {
+        Configuration configuration = new Configuration(args);
+        File file = new File(configuration.getOutputDir());
+        ArrayList<ChartRender> charts = new ArrayList<>();
+        MyCardLayout cardLayout = new MyCardLayout();
+
+        file.list((file1, name) -> {
+             if(new File(file1, name).isDirectory()) {
+                 ChartRender chart = new ChartRender("Heartbeat",configuration.getOutputDir() + "/" + name + "/data.log");
+                 charts.add(chart);
+                 JPanel panel = new JPanel();
+                 panel.add(chart.getFrame().getContentPane());
+                 cardLayout.addCart(panel, name);
+             }
+             return true;
+        });
+
+        Path dir = Paths.get(configuration.getOutputDir());
+        new WatchDir(dir, false, cardLayout).start();
+
+        SwingUtilities.invokeAndWait(() -> {
+            charts.forEach(chart -> {
+                try {
+                    chart.render();
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                }
+            });
+            cardLayout.show();
+        });
     }
 }
