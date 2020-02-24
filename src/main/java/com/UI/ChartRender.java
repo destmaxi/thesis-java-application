@@ -97,8 +97,6 @@ public class ChartRender {
         @Override
         protected void process(List<double[]> chunks) {
 
-            System.out.println("number of chunks: " + chunks.size());
-
             double[] mostRecentDataSet = chunks.get(chunks.size() - 1);
 
             chart.updateXYSeries(SERIES_NAME, null, mostRecentDataSet, null);

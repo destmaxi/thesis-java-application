@@ -28,7 +28,7 @@ public class WriteFSHandler implements BundleHandler {
             int numberOfBlocks = bundle.getNumberOfBlocks();
             for (int i = 0; i < numberOfBlocks; i++)
                 data.append(new String(bundle.getDecoded(i)));
-            data.append("\n");
+            //data.append("\n");
             log.info("received data: " + data.toString());
             ostream.write(data.toString().getBytes());
         } catch (IOException e) {
