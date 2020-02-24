@@ -43,7 +43,7 @@ public class SendIBRDTNHandler implements BundleHandler {
         }
         List<String> neighbors = bpApplication.getNeighborList();
         for (String neighbor : neighbors) {
-            Bundle newbundle = new Bundle(neighbor + "/" + destination, (bundle.getDestination() + "\n").getBytes());
+            Bundle newbundle = new Bundle(neighbor + "/" + destination, (bundle.getDestination()).getBytes());
             newbundle.setSource("dtn://" + hostname);
 
             log.info("BUNDLE: " + newbundle.toString());
