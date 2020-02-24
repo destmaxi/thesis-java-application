@@ -1,7 +1,6 @@
 package com.UI;
 
 import org.knowm.xchart.QuickChart;
-import org.knowm.xchart.SwingWrapper;
 import org.knowm.xchart.XYChart;
 
 import javax.swing.*;
@@ -17,7 +16,7 @@ public class ChartRender {
     private static final String SERIES_NAME = "Heartbeat";
     private int sizeToRender = 20;
     private MySwingWorker mySwingWorker;
-    private SwingWrapper<XYChart> sw;
+    private MySwingWrapper<XYChart> sw;
     private XYChart chart;
     private JFrame frame;
     private String title;
@@ -30,13 +29,11 @@ public class ChartRender {
         chart.getStyler().setLegendVisible(false);
         chart.getStyler().setXAxisTicksVisible(false);
 
-        sw = new SwingWrapper<>(chart);
+        sw = new MySwingWrapper<>(chart);
+        frame = sw.displayChart();
     }
 
     public void render() throws FileNotFoundException {
-        frame = sw.displayChart();
-        //frame.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
-
         mySwingWorker = new MySwingWorker();
         mySwingWorker.execute();
     }
@@ -45,6 +42,10 @@ public class ChartRender {
         mySwingWorker.cancel(true);
         frame.removeAll();
         frame.dispose();
+    }
+
+    public JFrame getFrame() {
+        return this.frame;
     }
 
     private class MySwingWorker extends SwingWorker<Boolean, double[]> {
@@ -72,7 +73,6 @@ public class ChartRender {
                         scanner.nextLine();
                 }
 
-                System.out.println(fifo.size());
                 if (fifo.size() > sizeToRender) fifo.removeFirst();
 
                 double[] renderArray = new double[fifo.size()];
