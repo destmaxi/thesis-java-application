@@ -35,7 +35,8 @@ public class ChartRender {
 
     public void render() throws FileNotFoundException {
         mySwingWorker = new MySwingWorker();
-        mySwingWorker.execute();
+        Thread thread = new Thread(mySwingWorker);
+        thread.start();
     }
 
     public void kill() {

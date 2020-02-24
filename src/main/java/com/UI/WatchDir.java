@@ -50,6 +50,7 @@ public class WatchDir extends Thread{
     private final boolean recursive;
     private boolean trace = false;
     private MyCardLayout cardLayout;
+    private Map<String, JPanel> panels;
 
     @SuppressWarnings("unchecked")
     static <T> WatchEvent<T> cast(WatchEvent<?> event) {
@@ -94,8 +95,9 @@ public class WatchDir extends Thread{
     /**
      * Creates a WatchService and registers the given directory
      */
-    WatchDir(Path dir, boolean recursive, MyCardLayout cardLayout) throws IOException {
+    WatchDir(Path dir, boolean recursive, MyCardLayout cardLayout, Map<String, JPanel> panels) throws IOException {
         this.cardLayout = cardLayout;
+        this.panels = panels;
         this.watcher = FileSystems.getDefault().newWatchService();
         this.keys = new HashMap<WatchKey,Path>();
         this.recursive = recursive;
@@ -146,11 +148,19 @@ public class WatchDir extends Thread{
                 Path child = dir.resolve(name);
 
                 // print out event
-                if (kind == ENTRY_CREATE) {
-                    ChartRender chart = new ChartRender("test", "/var/log/javaapp/" + child.getFileName() + "/data.log");
-                    JPanel panel = new JPanel();
-                    panel.add(chart.getFrame().getContentPane());
-                    cardLayout.addCart(panel, child.getFileName().toString());
+                if (kind == ENTRY_CREATE && (new File(child.toAbsolutePath().toUri()).isFile())) {
+                    String fileName = child.getFileName().toString();
+                    String parentName = child.getParent().getFileName().toString();
+
+                    ChartRender chart = new ChartRender(fileName, child.toAbsolutePath().toString());
+                    if (panels.containsKey(parentName)) {
+                        panels.get(parentName).add(chart.getFrame().getContentPane());
+                        cardLayout.pack();
+                    } else {
+                        JPanel panel = new JPanel();
+                        panel.add(chart.getFrame().getContentPane());
+                        cardLayout.addCart(panel, parentName);
+                    }
                     try {
                         chart.render();
                     } catch (FileNotFoundException e) {

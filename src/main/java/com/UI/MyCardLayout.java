@@ -9,6 +9,7 @@ public class MyCardLayout implements ItemListener {
     private JPanel cards;
     private JPanel comboBoxPane;
     private JComboBox<String> comboBox;
+    private JFrame mainFrame;
 
     public MyCardLayout() {
         comboBoxPane = new JPanel();
@@ -32,12 +33,16 @@ public class MyCardLayout implements ItemListener {
         }
     }
 
+    public void pack() {
+        mainFrame.pack();
+    }
+
     public void show() {
-        JFrame frame = new JFrame("CardLayout");
-        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        frame.getContentPane().add(comboBoxPane, BorderLayout.PAGE_START);
-        frame.getContentPane().add(cards, BorderLayout.CENTER);
-        frame.pack();
-        frame.setVisible(true);
+        mainFrame = new JFrame("CardLayout");
+        mainFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        mainFrame.getContentPane().add(comboBoxPane, BorderLayout.PAGE_START);
+        mainFrame.getContentPane().add(cards, BorderLayout.CENTER);
+        mainFrame.pack();
+        mainFrame.setVisible(true);
     }
 }
