@@ -17,6 +17,7 @@ public class Application {
     public static void main(String[] args) throws InvocationTargetException, InterruptedException, IOException, ParseException {
         Configuration configuration = new Configuration(args);
         File file = new File(configuration.getOutputDir());
+        if (!file.exists()) file.mkdirs();
         ArrayList<ChartRender> charts = new ArrayList<>();
         Map<String, JPanel> panels = new HashMap<>();
         MyCardLayout cardLayout = new MyCardLayout();
