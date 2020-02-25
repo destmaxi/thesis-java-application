@@ -24,6 +24,16 @@ Finally you can from (again) another terminal launch the python script that will
 $ docker exec javaapp python3 app/src/main/python/com/datacollector/Application.py
 ```
 
+To launch the user interface to monitor the different logs you can do the following.
+
+- connect through ssh to the container `ssh -X root:container_ip` (password is root)
+- then you can run the UI application
+```
+$ java -jar app/jar/java-ui.jar
+```
+
+The UI is not optimized and uses one thread per file present in /var/log/javaapp (default).
+
 ## TODO:
 
 - Make a docker-compose to launch multiple containers easily
