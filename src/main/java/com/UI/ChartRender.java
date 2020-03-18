@@ -21,6 +21,7 @@ public class ChartRender {
     private JFrame frame;
     private String title;
     private String dataPath;
+    private String lastWritten;
 
     public ChartRender(String title, String dataPath) {
         this.title = title;
@@ -66,10 +67,12 @@ public class ChartRender {
             while (!isCancelled()) {
 
                 if (scanner.hasNextLine()) {
-                    fifo.add(Double.parseDouble(scanner.nextLine()));
+                    lastWritten = scanner.nextLine();
+                    fifo.add(Double.parseDouble(lastWritten));
                     numberOfLinesRead++;
                 } else {
                     scanner = new Scanner(file);
+                    fifo.add(Double.parseDouble(lastWritten));
                     for (int i = 0; i < numberOfLinesRead; i++)
                         scanner.nextLine();
                 }
@@ -84,7 +87,7 @@ public class ChartRender {
                 publish(renderArray);
 
                 try {
-                    Thread.sleep(5);
+                    Thread.sleep(500);
                 } catch (InterruptedException e) {
                     // eat it. caught when interrupt is called
                     System.out.println("MySwingWorker shut down.");
